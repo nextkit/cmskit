@@ -1,0 +1,25 @@
+version: "2"
+services:
+  db:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=LiteCMS
+    volumes:
+      - ./database:/var/lib/mysql
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    restart: always
+    ports:
+      - 8888:80
+    volumes:
+      - /sessions
+    links:
+      - db
